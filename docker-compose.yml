@@ -22,4 +22,4 @@ services:
 
 networks:
   receiptchallenege_network:
-    driver: bridge      
+    driver: bridge
