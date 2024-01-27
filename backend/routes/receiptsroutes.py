@@ -3,7 +3,7 @@ from flask_json import FlaskJSON, as_json_p, json_response
 from . import receiptsroutesobject
 from services.receiptservices import validate_schema, generate_id, checkJsonisempty
 from services.redisservices import getReceipt, insertReceipt
-from services.pointsservices import calculateTotalPoints
+from services.calculatepointsservices import calculateTotalPoints
 
 
 @receiptsroutesobject.route("/process", methods=["POST"])  # Route to process receipt

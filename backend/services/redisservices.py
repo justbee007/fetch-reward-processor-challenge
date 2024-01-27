@@ -1,11 +1,28 @@
 import redis
-import json
+import json, os
+import logging
 
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+file_handler = logging.FileHandler("logfile.log")
+logger.addHandler(file_handler)
 try:
     # Establish a connection to the Redis server
-    connection = redis.Redis(host="localhost", port=6379, decode_responses=True)
+    redis_url = os.environ.get(
+        "REDIS_HOST", "localhost"
+    )  # Default to localhost if not set
+    redis_port = os.environ.get("REDIS_PORT", 6379)
+    connection = redis.Redis(
+        host=redis_url, port=int(redis_port), decode_responses=True
+    )
+    if connection.ping() == False:
+        raise Exception
+    else:
+        logger.debug("Connection to redis was successful")
 except Exception as e:
+    logger.error("Unable to connect to redis")
     # Handle connection errors
+
     print(f"Error establishing Redis connection: {e}")
 
 

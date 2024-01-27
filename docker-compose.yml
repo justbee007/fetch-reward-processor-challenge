@@ -2,11 +2,14 @@ version: '3'
 
 services:
   flask-app:
-    image: your-flask-image
+    image: receipt-processor-challenge:latest
     ports:
       - "6000:5000"
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
     networks:
-      - my_network
+      - receiptchallenege_network
     depends_on:
       - redis
 
@@ -14,7 +17,9 @@ services:
     image: "redis:latest"
     ports:
       - "6379:6379"
+    networks:
+      - receiptchallenege_network  
 
 networks:
-  my_network:
+  receiptchallenege_network:
     driver: bridge      
