@@ -2,7 +2,7 @@
 
 This project is a Flask-based receipt processing application that uses Docker for easy deployment. It utilizes Redis for storing receipt information and provides an API to process receipts and calculate points.
 
-## Prerequisites
+## Prerequisites to run the project
 
 - [Docker](https://www.docker.com/get-started)
 
