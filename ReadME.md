@@ -39,21 +39,35 @@ This project is a Flask-based receipt processing application that uses Docker fo
 
 5. **Access the API:**
 
-    Open a tool like Postman, and use below url to process a receipt as POST request with JSON as request body
+    Open a tool like Postman, and use the following URL to process a receipt as a POST request with JSON as the request body:
 
     ```bash
     http://127.0.0.1:6000/receipts/process
     ```
 
-    Use the API to calculate points. Use a GET request to get the points with specific receipt ID :
+    Use the API to calculate points. Use a GET request to get the points with a specific receipt ID:
 
     ```bash
     http://127.0.0.1:6000/receipts/<receipt-id>/points
     ```
 
-6. **Sample JSON and Expected Result:**
+6. **Flexibility with Ports:**
 
-    Sample JSON for processing receipt:
+    The default setup assumes that ports 6000 and 6379 are available on your machine. If these ports are unavailable or you prefer different ports, you can customize them in the `docker-compose.yml` file:
+
+    - Open the `docker-compose.yml` file.
+    - Locate the `ports` section under the `flask-app` service. Change the left side of the mapping (before the colon) to the desired host port:
+
+        ```yaml
+        ports:
+          - "6000:5000"
+        ```
+
+    - Save the file and run `docker-compose up -d` again.
+
+7. **Sample JSON and Expected Result:**
+
+    Sample JSON for processing a receipt:
 
     ```json
     {
@@ -74,7 +88,7 @@ This project is a Flask-based receipt processing application that uses Docker fo
           "shortDescription": "Doritos Nacho Cheese",
           "price": "3.35"
         },{
-          "shortDescription": "   Klarbrunn 12-PK 12 FL OZ  ",
+          "shortDescription": "Klarbrunn 12-PK 12 FL OZ",
           "price": "12.00"
         }
       ],
@@ -86,18 +100,62 @@ This project is a Flask-based receipt processing application that uses Docker fo
 
 ## API Documentation
 
-- **Process Receipt**
+### Process Receipt
 
-  - **URL:** `/receipts/process`
-  - **Method:** `POST`
-  - **Payload:** JSON payload containing receipt information.
-  - **Response:** JSON with a unique receipt ID.
+- **Endpoint:** `POST /receipts/process`
+- **Request:**
+  - **Content-Type:** `application/json`
+  - **Body:**
+    - Use JSON Schema for validation. (Include the JSON Schema details here)
+    - Example:
+      ```json
+      {
+        "retailer": "Target",
+        "purchaseDate": "2022-01-01",
+        "purchaseTime": "13:01",
+        "items": [
+          {
+            "shortDescription": "Mountain Dew 12PK",
+            "price": "6.49"
+          },
+          // ... (other items)
+        ],
+        "total": "35.35"
+      }
+      ```
+- **Response:**
+  - **Content-Type:** `application/json`
+  - Example:
+    ```json
+    {
+      "receiptId": "abc123"
+    }
+    ```
 
-- **Get Receipt Points**
+### Get Points for Receipt
 
-  - **URL:** `/receipts/<receipt_id>/points`
-  - **Method:** `GET`
-  - **Response:** JSON with the total points for the given receipt.
+- **Endpoint:** `GET /receipts/<receipt-id>/points`
+- **Request:**
+  - **Parameters:**
+    - `receipt-id`: The unique identifier for the processed receipt.
+- **Response:**
+  - **Content-Type:** `application/json`
+  - Example:
+    ```json
+    {
+      "points": 28
+    }
+    ```
+
+## JSON Schema for Validation
+
+This project uses JSON Schema Draft-07 for validating the input JSON when processing a receipt. JSON Schema provides a clear structure for the expected format of the data, ensuring consistency and reliability.
+
+For more details on JSON Schema Draft-07, refer to the official documentation: [JSON Schema Draft-07](https://json-schema.org/draft-07/json-schema-release-notes)
+
+## Redis for Persistence
+
+Redis is used as a persistence layer to store receipt information. This ensures that receipt data is retained even if the application or containers are restarted. Redis offers fast and efficient data storage and retrieval.
 
 ## Cleanup
 

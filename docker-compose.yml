@@ -2,9 +2,9 @@ version: '3'
 
 services:
   flask-app:
-    image: receipt-processor-challenge:latest
+    image: justbee007/receipt-processor-challenge:latest
     ports:
-      - "6000:5000"
+      - "6000:5000"   #Change 6000 to another port if host port 6000 is busy or unavilable
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
@@ -16,7 +16,7 @@ services:
   redis:
     image: "redis:latest"
     ports:
-      - "6379:6379"
+      - "6379:6379" #Change 6379 on Host machine to another port if its unavailable 
     networks:
       - receiptchallenege_network  
 
