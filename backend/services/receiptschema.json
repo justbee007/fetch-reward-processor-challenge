@@ -1,0 +1,44 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Generated schema for Receipt Schema",
+    "type": "object",
+    "properties": {
+      "retailer": {
+        "type": "string"
+      },
+      "purchaseDate": {
+        "type": "string"
+      },
+      "purchaseTime": {
+        "type": "string"
+      },
+      "total": {
+        "type": "string"
+      },
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "shortDescription": {
+              "type": "string"
+            },
+            "price": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "shortDescription",
+            "price"
+          ]
+        }
+      }
+    },
+    "required": [
+      "retailer",
+      "purchaseDate",
+      "purchaseTime",
+      "total",
+      "items"
+    ]
+  }
